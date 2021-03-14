@@ -7,6 +7,13 @@ def _qbec_show_impl(ctx):
     input_files = ctx.files.data
     out_file = ctx.actions.declare_file("%s.yaml" % ctx.attr.name)
 
+    command = (
+        [ctx.executable.qbec.path] +
+        ["show", ctx.attr.environment] +
+        ["-S" if ctx.attr.secrets else ""] +
+        [">", '%s' % out_file.path]
+    )
+
     ctx.actions.run_shell(
         inputs = input_files,
 
@@ -15,8 +22,7 @@ def _qbec_show_impl(ctx):
 
         progress_message = "Generating %s" % ctx.attr.environment,
 
-        command = ctx.executable.qbec.path + " show '%s' > '%s'" %
-                  (ctx.attr.environment, out_file.path),
+        command = " ".join(command)
     )
 
     return [DefaultInfo(files = depset([out_file]))]
