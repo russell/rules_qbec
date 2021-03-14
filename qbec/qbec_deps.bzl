@@ -2,7 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def qbec_repositories():
     http_archive(
-        name = "qbec",
+        name = "qbec_linux",
         sha256 = "9a891dc8cf93a3e144c02c4a4cb6e2e0fb733a87e230da0b1cdc1f33956eff75",
         urls = ["https://github.com/splunk/qbec/releases/download/v0.14.1/qbec-linux-amd64.tar.gz"],
         build_file = "@rule_qbec//qbec:qbec.BUILD",
