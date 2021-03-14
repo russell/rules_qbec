@@ -2,13 +2,6 @@ package(default_visibility = ["//visibility:public"])
 
 exports_files(["qbec.bzl"])
 
-filegroup(
-    name = "allfiles",
-    srcs = glob([
-        "**/qbec",
-    ]),
-)
-
 alias(
     name = "qbec_tool",
     actual = select({
