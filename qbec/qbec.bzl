@@ -11,18 +11,15 @@ def _qbec_show_impl(ctx):
         [ctx.executable.qbec.path] +
         ["show", ctx.attr.environment] +
         ["-S" if ctx.attr.secrets else ""] +
-        [">", '%s' % out_file.path]
+        [">", "%s" % out_file.path]
     )
 
     ctx.actions.run_shell(
         inputs = input_files,
-
         outputs = [out_file],
         tools = [ctx.executable.qbec],
-
         progress_message = "Generating %s" % ctx.attr.environment,
-
-        command = " ".join(command)
+        command = " ".join(command),
     )
 
     return [DefaultInfo(files = depset([out_file]))]
