@@ -5,14 +5,14 @@ def qbec_repositories():
         name = "qbec_linux",
         sha256 = "9a891dc8cf93a3e144c02c4a4cb6e2e0fb733a87e230da0b1cdc1f33956eff75",
         urls = ["https://github.com/splunk/qbec/releases/download/v0.14.1/qbec-linux-amd64.tar.gz"],
-        build_file = "@rule_qbec//qbec:qbec.BUILD",
+        build_file = "//qbec:qbec.BUILD",
     )
 
     http_archive(
         name = "qbec_osx",
         sha256 = "0221f15360bcafa3e56979438a372d9b11383931a6a480b553b69c3222858da1",
         urls = ["https://github.com/splunk/qbec/releases/download/v0.14.1/qbec-darwin-amd64.tar.gz"],
-        build_file = "@rule_qbec//qbec:qbec.BUILD",
+        build_file = "//qbec:qbec.BUILD",
     )
 
     _maybe(
