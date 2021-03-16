@@ -5,12 +5,13 @@ load("@bazel_skylib//lib:shell.bzl", "shell")
 load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def _qbec_show_impl(ctx):
-    input_files = ctx.files.data
+    input_files = ctx.files.data + ctx.files.config
     out_file = ctx.actions.declare_file("%s.yaml" % ctx.attr.name)
 
     args = [
         a for a in
         ["show", ctx.attr.environment] +
+        ["--root=" + ctx.files.config[0].dirname] +
         ["-S" if ctx.attr.secrets else ""]
         if a != ""
     ]
@@ -51,6 +52,11 @@ qbec_show = rule(
         "environment": attr.string(
             mandatory = True,
             doc = "The QBEC application project",
+        ),
+        "config": attr.label(
+            mandatory = True,
+            allow_single_file = True,
+            doc = "The config file for QBec",
         ),
         "data": attr.label_list(
             mandatory = True,
