@@ -1,17 +1,31 @@
 """
 """
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_skylib//lib:shell.bzl", "shell")
+load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def _qbec_show_impl(ctx):
     input_files = ctx.files.data
     out_file = ctx.actions.declare_file("%s.yaml" % ctx.attr.name)
 
-    command = (
-        [ctx.executable.qbec.path] +
+    args = [
+        a for a in
         ["show", ctx.attr.environment] +
-        ["-S" if ctx.attr.secrets else ""] +
-        [">", "%s" % out_file.path]
+        ["-S" if ctx.attr.secrets else ""]
+        if a != ""
+    ]
+
+    runner_out_file = ctx.actions.declare_file(ctx.label.name + ".bash")
+    substitutions = {
+        "@@ARGS@@": shell.array_literal(args),
+        "@@QBEC_SHORT_PATH@@": shell.quote(ctx.executable.qbec.short_path),
+        "@@OUT_FILE@@": out_file.short_path,
+    }
+    ctx.actions.expand_template(
+        template = ctx.file._runner,
+        output = runner_out_file,
+        substitutions = substitutions,
+        is_executable = True,
     )
 
     ctx.actions.run_shell(
@@ -19,14 +33,20 @@ def _qbec_show_impl(ctx):
         outputs = [out_file],
         tools = [ctx.executable.qbec],
         progress_message = "Generating %s" % ctx.attr.environment,
-        command = " ".join(command),
+        command = " ".join([ctx.executable.qbec.path] + args + [">", "'%s'" % out_file.path]),
     )
 
-    return [DefaultInfo(files = depset([out_file]))]
+    return [
+        DefaultInfo(
+            files = depset([out_file]),
+            runfiles = ctx.runfiles(files = [ctx.executable.qbec]),
+            executable = runner_out_file,
+        ),
+    ]
 
 qbec_show = rule(
     implementation = _qbec_show_impl,
-
+    executable = True,
     attrs = {
         "environment": attr.string(
             mandatory = True,
@@ -45,6 +65,10 @@ qbec_show = rule(
             default = Label("//qbec:qbec_tool"),
             cfg = "host",
             executable = True,
+            allow_single_file = True,
+        ),
+        "_runner": attr.label(
+            default = "//qbec:runner.bash.template",
             allow_single_file = True,
         ),
     },
