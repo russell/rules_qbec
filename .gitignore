@@ -2,3 +2,4 @@
 /bazel-out
 /bazel-rule_qbec
 /bazel-testlogs
+/bazel-rules_qbec

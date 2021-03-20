@@ -13,10 +13,6 @@ http_archive(
     ],
 )
 
-load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
-
-bazel_skylib_workspace()
-
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 
 go_rules_dependencies()
@@ -53,3 +49,36 @@ http_archive(
     strip_prefix = "buildtools-master",
     url = "https://github.com/bazelbuild/buildtools/archive/master.zip",
 )
+
+#
+# Stardoc Repositories
+#
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+git_repository(
+    name = "io_bazel_stardoc",
+    remote = "https://github.com/bazelbuild/stardoc.git",
+    tag = "0.4.0",
+)
+
+load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
+stardoc_repositories()
+
+
+#
+# Stately Repositories
+#
+http_archive(
+    name = "com_github_russell_rules_stately",
+    strip_prefix = "rules_stately-main",
+    urls = ["https://github.com/russell/rules_stately/archive/main.zip"],
+)
+
+load("@com_github_russell_rules_stately//stately:stately_deps.bzl", "stately_repositories")
+stately_repositories()
+
+
+#
+# Local Repositories
+#
+load("//qbec:qbec_deps.bzl", "qbec_repositories")
+qbec_repositories()

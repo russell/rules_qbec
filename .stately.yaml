@@ -1,0 +1,6 @@
+apiVersion: simopolis.xyz/v1alpha1
+kind: StateConfig
+target:
+  //:deploy_qbec_doc:
+    files:
+    - Path: qbec/README.md
