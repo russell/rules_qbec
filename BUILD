@@ -1,7 +1,7 @@
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 load("@io_bazel_stardoc//stardoc:stardoc.bzl", "stardoc")
-load("@com_github_russell_rules_stately//stately:stately.bzl", "project_installed_files")
-load("//qbec:qbec.bzl", "qbec_show")
+load("@com_github_russell_rules_stately//stately:defs.bzl", "project_installed_files")
+load("//qbec:defs.bzl", "qbec_show")
 
 buildifier(
     name = "buildifier",
@@ -9,7 +9,7 @@ buildifier(
 
 stardoc(
     name = "qbec_doc",
-    input = "//qbec:qbec.bzl",
+    input = "//qbec:defs.bzl",
     out = "README.md",
     symbol_names = ["qbec_show"],
     deps = ["//qbec:qbec_lib"],

@@ -73,12 +73,12 @@ http_archive(
     urls = ["https://github.com/russell/rules_stately/archive/main.zip"],
 )
 
-load("@com_github_russell_rules_stately//stately:stately_deps.bzl", "stately_repositories")
+load("@com_github_russell_rules_stately//stately:deps.bzl", "stately_repositories")
 stately_repositories()
 
 
 #
 # Local Repositories
 #
-load("//qbec:qbec_deps.bzl", "qbec_repositories")
+load("//qbec:deps.bzl", "qbec_repositories")
 qbec_repositories()

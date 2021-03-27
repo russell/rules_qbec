@@ -2,7 +2,7 @@ load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 
 package(default_visibility = ["//visibility:public"])
 
-exports_files(["qbec.bzl"])
+exports_files(["defs.bzl"])
 
 exports_files(
     ["runner.bash.template"],
@@ -19,7 +19,7 @@ alias(
 
 bzl_library(
     name = "qbec_lib",
-    srcs = ["qbec.bzl"],
+    srcs = ["defs.bzl"],
     deps = [
         "@bazel_skylib//lib:shell.bzl",
         "@bazel_skylib//lib:paths.bzl",
