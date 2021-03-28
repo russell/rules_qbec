@@ -4,3 +4,7 @@ target:
   //:deploy_qbec_doc:
     files:
     - Path: qbec/README.md
+  //:deploy_semantic_release:
+    files:
+    - Path: .github/workflows/semantic-release.yml
+    - Path: .releaserc.json

@@ -2,6 +2,7 @@ load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 load("@io_bazel_stardoc//stardoc:stardoc.bzl", "stardoc")
 load("@com_github_russell_rules_stately//stately:defs.bzl", "project_installed_files")
 load("//qbec:defs.bzl", "qbec_show")
+load("@com_github_russell_rules_bazel_release//semantic_release:defs.bzl", "semantic_release")
 
 buildifier(
     name = "buildifier",
@@ -20,3 +21,5 @@ project_installed_files(
     srcs = [":qbec_doc"],
     output = "qbec"
 )
+
+semantic_release()
